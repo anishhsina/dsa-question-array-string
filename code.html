@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Array & Strings - Programming Q&A</title>
+    <link rel="stylesheet" href="code.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 Array & Strings Mastery</h1>
+            <p>Interactive Q&A Guide with Live Demos</p>
+        </div>
+
+        <!-- Question 1: Reverse Array -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">1. Reverse an array in-place without using extra space</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Reverse an array without using additional space (in-place reversal).<br>
+                        <strong>Approach:</strong> Use two pointers - one at the beginning and one at the end. Swap elements and move pointers towards each other until they meet.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="keyword">function</span> <span class="function">reverseArray</span>(arr) {
+    <span class="keyword">let</span> left = <span class="number">0</span>;
+    <span class="keyword">let</span> right = arr.length - <span class="number">1</span>;
+    
+    <span class="keyword">while</span> (left < right) {
+        <span class="comment">// Swap elements</span>
+        <span class="keyword">let</span> temp = arr[left];
+        arr[left] = arr[right];
+        arr[right] = temp;
+        
+        <span class="comment">// Move pointers</span>
+        left++;
+        right--;
+    }
+    
+    <span class="keyword">return</span> arr;
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n) | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="reverseInput" placeholder="Enter comma-separated numbers: 1,2,3,4,5">
+                            <button class="demo-button" onclick="demoReverse()">Reverse Array</button>
+                        </div>
+                        <div class="demo-output" id="reverseOutput">Enter an array to see the result...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2: Kadane's Algorithm -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">2. Find the maximum subarray sum (Kadane's Algorithm)</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Find the contiguous subarray with the maximum sum.<br>
+                        <strong>Approach:</strong> Kadane's algorithm keeps track of maximum sum ending at current position and global maximum.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>                            
+<span class="keyword">function</span> <span class="function">maxSubarraySum</span>(arr) {
+    <span class="keyword">if</span> (arr.length === <span class="number">0</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    
+    <span class="keyword">let</span> maxSoFar = arr[<span class="number">0</span>];
+    <span class="keyword">let</span> maxEndingHere = arr[<span class="number">0</span>];
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < arr.length; i++) {
+        <span class="comment">// Either extend existing subarray or start new</span>
+        maxEndingHere = Math.max(arr[i], maxEndingHere + arr[i]);
+        
+        <span class="comment">// Update global maximum</span>
+        maxSoFar = Math.max(maxSoFar, maxEndingHere);
+    }
+    
+    <span class="keyword">return</span> maxSoFar;
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n) | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="kadaneInput" placeholder="Enter comma-separated numbers: -2,1,-3,4,-1,2,1,-5,4">
+                            <button class="demo-button" onclick="demoKadane()">Find Max Sum</button>
+                        </div>
+                        <div class="demo-output" id="kadaneOutput">Enter an array to see the result...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3: Find Duplicate -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">3. Find the duplicate number in an array</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Find the duplicate number in an array of n+1 integers where each integer is between 1 and n.<br>
+                        <strong>Approach:</strong> Floyd's Cycle Detection (Tortoise and Hare) - treat array as a linked list.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="keyword">function</span> <span class="function">findDuplicate</span>(nums) {
+    <span class="comment">// Phase 1: Find intersection point in the cycle</span>
+    <span class="keyword">let</span> tortoise = nums[<span class="number">0</span>];
+    <span class="keyword">let</span> hare = nums[<span class="number">0</span>];
+    
+    <span class="keyword">do</span> {
+        tortoise = nums[tortoise];
+        hare = nums[nums[hare]];
+    } <span class="keyword">while</span> (tortoise !== hare);
+    
+    <span class="comment">// Phase 2: Find entrance to the cycle</span>
+    tortoise = nums[<span class="number">0</span>];
+    <span class="keyword">while</span> (tortoise !== hare) {
+        tortoise = nums[tortoise];
+        hare = nums[hare];
+    }
+    
+    <span class="keyword">return</span> hare;
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n) | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="duplicateInput" placeholder="Enter array with duplicate: 1,3,4,2,2">
+                            <button class="demo-button" onclick="demoDuplicate()">Find Duplicate</button>
+                        </div>
+                        <div class="demo-output" id="duplicateOutput">Enter an array to see the result...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4: Search in Rotated Array -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">4. Search in a rotated sorted array</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Search for a target value in a rotated sorted array.<br>
+                        <strong>Approach:</strong> Modified binary search - determine which half is sorted and check if target lies in that range.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="keyword">function</span> <span class="function">searchRotated</span>(nums, target) {
+    <span class="keyword">let</span> left = <span class="number">0</span>;
+    <span class="keyword">let</span> right = nums.length - <span class="number">1</span>;
+    
+    <span class="keyword">while</span> (left <= right) {
+        <span class="keyword">let</span> mid = Math.floor((left + right) / <span class="number">2</span>);
+        
+        <span class="keyword">if</span> (nums[mid] === target) {
+            <span class="keyword">return</span> mid;
+        }
+        
+        <span class="comment">// Check which half is sorted</span>
+        <span class="keyword">if</span> (nums[left] <= nums[mid]) {
+            <span class="comment">// Left half is sorted</span>
+            <span class="keyword">if</span> (nums[left] <= target && target < nums[mid]) {
+                right = mid - <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                left = mid + <span class="number">1</span>;
+            }
+        } <span class="keyword">else</span> {
+            <span class="comment">// Right half is sorted</span>
+            <span class="keyword">if</span> (nums[mid] < target && target <= nums[right]) {
+                left = mid + <span class="number">1</span>;
+            } <span class="keyword">else</span> {
+                right = mid - <span class="number">1</span>;
+            }
+        }
+    }
+    
+    <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// Not found</span>
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(log n) | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="rotatedArrayInput" placeholder="Array: 4,5,6,7,0,1,2">
+                            <input type="text" id="rotatedTargetInput" placeholder="Target: 0">
+                            <button class="demo-button" onclick="demoRotatedSearch()">Search</button>
+                        </div>
+                        <div class="demo-output" id="rotatedOutput">Enter array and target to see the result...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5: Merge Sorted Arrays -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">5. Merge two sorted arrays without extra space</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Merge two sorted arrays in-place without using extra space.<br>
+                        <strong>Approach:</strong> Start from the end of both arrays and place larger elements at the end of the first array.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="keyword">function</span> <span class="function">mergeSortedArrays</span>(nums1, m, nums2, n) {
+    <span class="keyword">let</span> i = m - <span class="number">1</span>; <span class="comment">// Last element in nums1</span>
+    <span class="keyword">let</span> j = n - <span class="number">1</span>; <span class="comment">// Last element in nums2</span>
+    <span class="keyword">let</span> k = m + n - <span class="number">1</span>; <span class="comment">// Last position in nums1</span>
+    
+    <span class="comment">// Merge from the end</span>
+    <span class="keyword">while</span> (i >= <span class="number">0</span> && j >= <span class="number">0</span>) {
+        <span class="keyword">if</span> (nums1[i] > nums2[j]) {
+            nums1[k] = nums1[i];
+            i--;
+        } <span class="keyword">else</span> {
+            nums1[k] = nums2[j];
+            j--;
+        }
+        k--;
+    }
+    
+    <span class="comment">// Copy remaining elements from nums2</span>
+    <span class="keyword">while</span> (j >= <span class="number">0</span>) {
+        nums1[k] = nums2[j];
+        j--;
+        k--;
+    }
+    
+    <span class="keyword">return</span> nums1;
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(m + n) | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="mergeArray1Input" placeholder="Array 1: 1,2,3,0,0,0">
+                            <input type="text" id="mergeArray2Input" placeholder="Array 2: 2,5,6">
+                            <button class="demo-button" onclick="demoMerge()">Merge Arrays</button>
+                        </div>
+                        <div class="demo-output" id="mergeOutput">Enter two arrays to see the result...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 6: Longest Common Prefix -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">6. Find the longest common prefix in a string array</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Find the longest common prefix string amongst an array of strings.<br>
+                        <strong>Approach:</strong> Compare characters vertically - check the same position across all strings.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="keyword">function</span> <span class="function">longestCommonPrefix</span>(strs) {
+    <span class="keyword">if</span> (strs.length === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;
+    
+    <span class="comment">// Start with first string as prefix</span>
+    <span class="keyword">let</span> prefix = strs[<span class="number">0</span>];
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i < strs.length; i++) {
+        <span class="comment">// Compare with each string and shorten prefix</span>
+        <span class="keyword">while</span> (strs[i].indexOf(prefix) !== <span class="number">0</span>) {
+            prefix = prefix.substring(<span class="number">0</span>, prefix.length - <span class="number">1</span>);
+            <span class="keyword">if</span> (prefix === <span class="string">""</span>) <span class="keyword">return</span> <span class="string">""</span>;
+        }
+    }
+    
+    <span class="keyword">return</span> prefix;
+}
+
+<span class="comment">// Alternative vertical scanning approach</span>
+<span class="keyword">function</span> <span class="function">longestCommonPrefixVertical</span>(strs) {
+    <span class="keyword">if</span> (strs.length === <span class="number">0</span>) <span class="keyword">return</span> <span class="string">""</span>;
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < strs[<span class="number">0</span>].length; i++) {
+        <span class="keyword">let</span> char = strs[<span class="number">0</span>][i];
+        
+        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">1</span>; j < strs.length; j++) {
+            <span class="keyword">if</span> (i >= strs[j].length || strs[j][i] !== char) {
+                <span class="keyword">return</span> strs[<span class="number">0</span>].substring(<span class="number">0</span>, i);
+            }
+        }
+    }
+    
+    <span class="keyword">return</span> strs[<span class="number">0</span>];
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(S) where S is sum of all characters | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="prefixInput" placeholder="Enter strings separated by commas: flower,flow,flight">
+                            <button class="demo-button" onclick="demoPrefix()">Find Common Prefix</button>
+                        </div>
+                        <div class="demo-output" id="prefixOutput">Enter strings to see the result...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 7: Palindrome Check -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">7. Check if a string is palindrome</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Check if a string reads the same forwards and backwards.<br>
+                        <strong>Approach:</strong> Use two pointers from both ends, comparing characters while moving towards center.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block"> 
+
+<pre>
+<span class="keyword">function</span> <span class="function">isPalindrome</span>(s) {
+    <span class="comment">// Clean string: remove non-alphanumeric and convert to lowercase</span>
+    <span class="keyword">const</span> cleanStr = s.replace(/[^a-zA-Z0-9]/g, <span class="string">''</span>).toLowerCase();
+    
+    <span class="keyword">let</span> left = <span class="number">0</span>;
+    <span class="keyword">let</span> right = cleanStr.length - <span class="number">1</span>;
+    
+    <span class="keyword">while</span> (left < right) {
+        <span class="keyword">if</span> (cleanStr[left] !== cleanStr[right]) {
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+        left++;
+        right--;
+    }
+    
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+}
+
+<span class="comment">// Simple version for clean strings</span>
+<span class="keyword">function</span> <span class="function">isPalindromeSimple</span>(s) {
+    <span class="keyword">let</span> left = <span class="number">0</span>;
+    <span class="keyword">let</span> right = s.length - <span class="number">1</span>;
+    
+    <span class="keyword">while</span> (left < right) {
+        <span class="keyword">if</span> (s[left] !== s[right]) {
+            <span class="keyword">return</span> <span class="keyword">false</span>;
+        }
+        left++;
+        right--;
+    }
+    
+    <span class="keyword">return</span> <span class="keyword">true</span>;
+} </pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n) | Space Complexity: O(1)
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="palindromeInput" placeholder="Enter a string: A man, a plan, a canal: Panama">
+                            <button class="demo-button" onclick="demoPalindrome()">Check Palindrome</button>
+                        </div>
+                        <div class="demo-output" id="palindromeOutput">Enter a string to check...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 8: Implement strstr -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">8. Implement strstr() / indexOf()</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Find the first occurrence of a substring in a string.<br>
+                        <strong>Approach:</strong> Sliding window technique or KMP algorithm for optimal solution.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="comment">// Simple sliding window approach</span>
+<span class="keyword">function</span> <span class="function">strStr</span>(haystack, needle) {
+    <span class="keyword">if</span> (needle === <span class="string">""</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i <= haystack.length - needle.length; i++) {
+        <span class="keyword">let</span> j = <span class="number">0</span>;
+        
+        <span class="comment">// Check if substring matches</span>
+        <span class="keyword">while</span> (j < needle.length && haystack[i + j] === needle[j]) {
+            j++;
+        }
+        
+        <span class="keyword">if</span> (j === needle.length) {
+            <span class="keyword">return</span> i; <span class="comment">// Found match</span>
+        }
+    }
+    
+    <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// Not found</span>
+}
+
+<span class="comment">// KMP Algorithm for optimal solution</span>
+<span class="keyword">function</span> <span class="function">strStrKMP</span>(haystack, needle) {
+    <span class="keyword">if</span> (needle === <span class="string">""</span>) <span class="keyword">return</span> <span class="number">0</span>;
+    
+    <span class="comment">// Build LPS array</span>
+    <span class="keyword">const</span> lps = buildLPS(needle);
+    <span class="keyword">let</span> i = <span class="number">0</span>; <span class="comment">// haystack pointer</span>
+    <span class="keyword">let</span> j = <span class="number">0</span>; <span class="comment">// needle pointer</span>
+    
+    <span class="keyword">while</span> (i < haystack.length) {
+        <span class="keyword">if</span> (haystack[i] === needle[j]) {
+            i++;
+            j++;
+        }
+        
+        <span class="keyword">if</span> (j === needle.length) {
+            <span class="keyword">return</span> i - j;
+        } <span class="keyword">else if</span> (i < haystack.length && haystack[i] !== needle[j]) {
+            <span class="keyword">if</span> (j !== <span class="number">0</span>) {
+                j = lps[j - <span class="number">1</span>];
+            } <span class="keyword">else</span> {
+                i++;
+            }
+        }
+    }
+    
+    <span class="keyword">return</span> -<span class="number">1</span>;
+}
+
+<span class="keyword">function</span> <span class="function">buildLPS</span>(needle) {
+    <span class="keyword">const</span> lps = <span class="keyword">new</span> Array(needle.length).fill(<span class="number">0</span>);
+    <span class="keyword">let</span> len = <span class="number">0</span>;
+    <span class="keyword">let</span> i = <span class="number">1</span>;
+    
+    <span class="keyword">while</span> (i < needle.length) {
+        <span class="keyword">if</span> (needle[i] === needle[len]) {
+            len++;
+            lps[i] = len;
+            i++;
+        } <span class="keyword">else</span> {
+            <span class="keyword">if</span> (len !== <span class="number">0</span>) {
+                len = lps[len - <span class="number">1</span>];
+            } <span class="keyword">else</span> {
+                lps[i] = <span class="number">0</span>;
+                i++;
+            }
+        }
+    }
+    
+    <span class="keyword">return</span> lps;
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n + m) with KMP, O(n*m) simple | Space Complexity: O(m) with KMP, O(1) simple
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="haystackInput" placeholder="Haystack: hello world">
+                            <input type="text" id="needleInput" placeholder="Needle: world">
+                            <button class="demo-button" onclick="demoStrStr()">Find Substring</button>
+                        </div>
+                        <div class="demo-output" id="strstrOutput">Enter haystack and needle to search...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 9: Rotate Array -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">9. Rotate an array by k steps</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Rotate an array to the right by k steps.<br>
+                        <strong>Approach:</strong> Reverse the entire array, then reverse first k elements, then reverse remaining elements.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="keyword">function</span> <span class="function">rotateArray</span>(nums, k) {
+    k = k % nums.length; <span class="comment">// Handle k > array length</span>
+    
+    <span class="comment">// Method 1: Three reversals</span>
+    reverse(nums, <span class="number">0</span>, nums.length - <span class="number">1</span>); <span class="comment">// Reverse entire array</span>
+    reverse(nums, <span class="number">0</span>, k - <span class="number">1</span>);           <span class="comment">// Reverse first k elements</span>
+    reverse(nums, k, nums.length - <span class="number">1</span>);     <span class="comment">// Reverse remaining elements</span>
+    
+    <span class="keyword">return</span> nums;
+}
+
+<span class="keyword">function</span> <span class="function">reverse</span>(arr, start, end) {
+    <span class="keyword">while</span> (start < end) {
+        <span class="keyword">let</span> temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+        start++;
+        end--;
+    }
+}
+
+<span class="comment">// Alternative: Using extra space</span>
+<span class="keyword">function</span> <span class="function">rotateArrayExtraSpace</span>(nums, k) {
+    k = k % nums.length;
+    <span class="keyword">const</span> result = <span class="keyword">new</span> Array(nums.length);
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length; i++) {
+        result[(i + k) % nums.length] = nums[i];
+    }
+    
+    <span class="comment">// Copy back to original array</span>
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length; i++) {
+        nums[i] = result[i];
+    }
+    
+    <span class="keyword">return</span> nums;
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n) | Space Complexity: O(1) for reverse method, O(n) for extra space method
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="rotateArrayInput" placeholder="Array: 1,2,3,4,5,6,7">
+                            <input type="text" id="rotateKInput" placeholder="K steps: 3">
+                            <button class="demo-button" onclick="demoRotateArray()">Rotate Array</button>
+                        </div>
+                        <div class="demo-output" id="rotateArrayOutput">Enter array and k to see rotation...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 10: Find Missing Number -->
+        <div class="question-card">
+            <div class="question-header">
+                <div class="question-title">10. Find missing number from 1…n</div>
+                <div class="toggle-icon">▼</div>
+            </div>
+            <div class="answer-content">
+                <div class="answer-inner">
+                    <div class="explanation">
+                        <strong>Problem:</strong> Given an array containing n distinct numbers from 1 to n+1, find the missing number.<br>
+                        <strong>Approach:</strong> Use sum formula, XOR operation, or binary search depending on constraints.
+                    </div>
+                    
+                    <div class="code-section">
+                        <div class="code-title">JavaScript Solution:</div>
+                        <div class="code-block">
+<pre>
+<span class="comment">// Method 1: Using sum formula</span>
+<span class="keyword">function</span> <span class="function">findMissingNumber</span>(nums) {
+    <span class="keyword">const</span> n = nums.length + <span class="number">1</span>;
+    <span class="keyword">const</span> expectedSum = (n * (n + <span class="number">1</span>)) / <span class="number">2</span>;
+    <span class="keyword">const</span> actualSum = nums.reduce((sum, num) => sum + num, <span class="number">0</span>);
+    
+    <span class="keyword">return</span> expectedSum - actualSum;
+}
+
+<span class="comment">// Method 2: Using XOR (handles overflow)</span>
+<span class="keyword">function</span> <span class="function">findMissingNumberXOR</span>(nums) {
+    <span class="keyword">let</span> missing = nums.length + <span class="number">1</span>; <span class="comment">// Start with n+1</span>
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i < nums.length; i++) {
+        missing ^= nums[i] ^ (i + <span class="number">1</span>);
+    }
+    
+    <span class="keyword">return</span> missing;
+}
+
+<span class="comment">// Method 3: Using binary search (if array is sorted)</span>
+<span class="keyword">function</span> <span class="function">findMissingNumberBinarySearch</span>(nums) {
+    <span class="comment">// Sort the array first</span>
+    nums.sort((a, b) => a - b);
+    
+    <span class="keyword">let</span> left = <span class="number">0</span>;
+    <span class="keyword">let</span> right = nums.length - <span class="number">1</span>;
+    
+    <span class="keyword">while</span> (left <= right) {
+        <span class="keyword">let</span> mid = Math.floor((left + right) / <span class="number">2</span>);
+        
+        <span class="comment">// If nums[mid] == mid + 1, missing number is on the right</span>
+        <span class="keyword">if</span> (nums[mid] === mid + <span class="number">1</span>) {
+            left = mid + <span class="number">1</span>;
+        } <span class="keyword">else</span> {
+            right = mid - <span class="number">1</span>;
+        }
+    }
+    
+    <span class="keyword">return</span> left + <span class="number">1</span>;
+}
+
+<span class="comment">// Method 4: Using Set for unsorted array</span>
+<span class="keyword">function</span> <span class="function">findMissingNumberSet</span>(nums) {
+    <span class="keyword">const</span> numSet = <span class="keyword">new</span> Set(nums);
+    
+    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i <= nums.length + <span class="number">1</span>; i++) {
+        <span class="keyword">if</span> (!numSet.has(i)) {
+            <span class="keyword">return</span> i;
+        }
+    }
+    
+    <span class="keyword">return</span> -<span class="number">1</span>; <span class="comment">// Should never reach here</span>
+}
+</pre>
+                        </div>
+                    </div>
+                    
+                    <div class="complexity">
+                        Time Complexity: O(n) for sum/XOR/set, O(n log n) for binary search | Space Complexity: O(1) for sum/XOR, O(n) for set
+                    </div>
+                    
+                    <div class="demo-section">
+                        <div class="demo-title">Try it out:</div>
+                        <div class="demo-input">
+                            <input type="text" id="missingInput" placeholder="Array (missing one number from 1 to n): 3,0,1">
+                            <button class="demo-button" onclick="demoMissingNumber()">Find Missing Number</button>
+                        </div>
+                        <div class="demo-output" id="missingOutput">Enter an array to find the missing number...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="code.js"></script>
+</body>
+</html>
